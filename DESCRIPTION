@@ -4,7 +4,7 @@ Version: 0.0.1
 URL: http://github.com/tpq/factordist
 BugReports: http://github.com/tpq/factordist/issues
 Authors@R: c(
-    person("Thomas", "Quinn", email = "contacttomquinn@gmail.com", role = c("aut", "cre")),
+    person("Thomas", "Quinn", email = "contacttomquinn@gmail.com", role = c("aut", "cre"))
     )
 Description: This package measures the distance between factors. Most functions
     contained here work by tallying how often the elements of the factors
@@ -19,7 +19,9 @@ RoxygenNote: 7.1.2
 Encoding: UTF-8
 Depends:
     methods,
-    R (>= 3.2.2)
-Imports:
-    stats,
-    utils
+    R (>= 3.2.2),
+    stats
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
