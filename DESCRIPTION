@@ -1,0 +1,25 @@
+Package: factordist
+Title: Measuring Distance Between Factors
+Version: 0.0.1
+URL: http://github.com/tpq/factordist
+BugReports: http://github.com/tpq/factordist/issues
+Authors@R: c(
+    person("Thomas", "Quinn", email = "contacttomquinn@gmail.com", role = c("aut", "cre")),
+    )
+Description: This package measures the distance between factors. Most functions
+    contained here work by tallying how often the elements of the factors
+    equal one another. Some functions will treat the factor label in
+    an absolute sense, while others will treat the factor label in
+    a relative sense. The latter are useful for measuring the distance
+    between clusterings, where the cluster label may be arbitrary.
+License: GPL-2
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 7.1.2
+Encoding: UTF-8
+Depends:
+    methods,
+    R (>= 3.2.2)
+Imports:
+    stats,
+    utils
