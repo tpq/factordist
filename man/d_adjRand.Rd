@@ -2,7 +2,7 @@
 % Please edit documentation in R/3-diffs.R
 \name{d_adjRand}
 \alias{d_adjRand}
-\title{Calculate Adjusted Rand}
+\title{Calculate Adjusted Rand Distance}
 \usage{
 d_adjRand(a, b)
 }
@@ -17,8 +17,14 @@ A factor metric that is categorical and relative.
 }
 \details{
 See Section 2.2.1 of Caruana et al. paper "Meta Clustering".
- This metric sums I_ij for all pairs (i,j) where I_ij=1 if points i and j
+ This function sums I_ij for all pairs (i,j) where I_ij=1 if points i and j
  have the same label in one input but different labels in the other input.
  The total sum is then scaled by the total number of pairs, and so the
  metric will always range from 0 to 1.
+
+NAs have no category assignment. As such, an NA never equals an NA.
+ Here, the distance between two vectors of NAs is 0 because neither vector
+ has overlapping categories. The distance between a vector of NAs and a
+ vector of a single category is 1 because one vector has no overlapping
+ categories while the other does.
 }

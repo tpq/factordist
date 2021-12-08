@@ -30,7 +30,7 @@ NULL
 #' dis <- factordist(x, metric = "adjRand")
 #'
 #' @export
-factordist <- function(data, metric = c("adjRand"), as_dist = TRUE){
+factordist <- function(data, metric = c("adjRand", "jaccard"), as_dist = TRUE){
 
   if(class(data) != "data.frame") stop("Input must be a data.frame.")
   isfact <- sapply(data, is.factor)
@@ -39,6 +39,8 @@ factordist <- function(data, metric = c("adjRand"), as_dist = TRUE){
   metric <- metric[1]
   if(metric == "adjRand"){
     dif <- papply(data, MARGIN = 2, FUN = d_adjRand, lower_only = FALSE)
+  }else if(metric == "jaccard"){
+    dif <- papply(data, MARGIN = 2, FUN = d_jaccard, lower_only = FALSE)
   }else{
     stop("Metric not recognized. See ?factordist.")
   }

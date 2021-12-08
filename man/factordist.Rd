@@ -4,7 +4,7 @@
 \alias{factordist}
 \title{Calculate Distance Between Factors}
 \usage{
-factordist(data, metric = c("adjRand"), as_dist = TRUE)
+factordist(data, metric = c("adjRand", "jaccard"), as_dist = TRUE)
 }
 \arguments{
 \item{data}{A data.frame. Distances and differences
