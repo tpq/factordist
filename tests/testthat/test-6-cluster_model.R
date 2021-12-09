@@ -11,7 +11,7 @@ df2 <- data.frame(
   "L" = c(0, 0, 0, 0, 0, 1, 1, 1),
   "M" = c(0, 1, 1, 1, 0, 0, 0, 0),
   "N" = c(0, 0, 0, 0, 0, 0, 0, 1),
-  "O" = 0:7
+  "O" = rep(9, 8)
 )
 df2 <- t(df2)
 
@@ -23,6 +23,6 @@ test_that("cluster_model works", {
 
   expect_equal(
     k,
-    c("A", "B", "C", "D")
+    c("A", "B", "C", NA)
   )
 })
