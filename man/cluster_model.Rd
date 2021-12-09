@@ -13,7 +13,7 @@
 
 \S4method{show}{cluster_model}(object)
 
-cluster_model(x, y, FUN, ...)
+cluster_model(x, y, FUN, asym = FALSE, ...)
 
 \S4method{predict}{cluster_model}(object, newdata, output_list = FALSE)
 }
@@ -29,6 +29,11 @@ For S3 methods, \code{x} refers to a \code{cluster_model} object.}
 arguments for this function should correspond to vectors
 of the two samples to compare. Additional arguments
 can be provided via \code{...}.}
+
+\item{asym}{A boolean. Toggles whether the \code{FUN} is asymmetrical,
+i.e., dist(a, b) != dist(b, a). When TRUE, the \code{predict}
+method will choose each neighbor based on the smaller of the
+two distances.}
 
 \item{...}{Arguments to the difference function.}
 
@@ -59,6 +64,8 @@ The \code{cluster_model} class and methods are intended to make
 \item{\code{y}}{Stores the cluster group assignments.}
 
 \item{\code{FUN}}{Stores a difference function.}
+
+\item{\code{asym}}{Stores whether the function is asymmetrical.}
 
 \item{\code{args}}{Stores arguments to the difference function.}
 }}

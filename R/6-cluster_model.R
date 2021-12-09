@@ -23,6 +23,7 @@
 #' @slot x Stores the data that has been clustered.
 #' @slot y Stores the cluster group assignments.
 #' @slot FUN Stores a difference function.
+#' @slot asym Stores whether the function is asymmetrical.
 #' @slot args Stores arguments to the difference function.
 #'
 #' @param x The data that has been clustered.
@@ -32,6 +33,10 @@
 #'  arguments for this function should correspond to vectors
 #'  of the two samples to compare. Additional arguments
 #'  can be provided via \code{...}.
+#' @param asym A boolean. Toggles whether the \code{FUN} is asymmetrical,
+#'  i.e., dist(a, b) != dist(b, a). When TRUE, the \code{predict}
+#'  method will choose each neighbor based on the smaller of the
+#'  two distances.
 #' @param ... Arguments to the difference function.
 #' @param object A \code{cluster_model} object.
 #' @param newdata New data for which to assign cluster groups.
@@ -50,6 +55,7 @@ setClass(
     x = "matrix",
     y = "character",
     FUN = "function",
+    asym = "logical",
     args = "list"
   )
 )
@@ -84,7 +90,7 @@ setMethod(
 
 #' @rdname cluster_model
 #' @export
-cluster_model <- function(x, y, FUN, ...){
+cluster_model <- function(x, y, FUN, asym = FALSE, ...){
 
   args <- as.list(substitute(list(...)))[-1]
 
@@ -100,10 +106,7 @@ cluster_model <- function(x, y, FUN, ...){
     y <- y[,1]
   }
 
-  if(any(class(y) == "factor")){
-    message("Alert: Coercing label input to string.")
-    y <- as.character(y)
-  }else if(any(class(y) == "numeric")){
+  if(any(class(y) %in% c("factor", "numeric", "integer"))){
     message("Alert: Coercing label input to string.")
     y <- as.character(y)
   }else if(any(class(y) == "character")){
@@ -121,6 +124,7 @@ cluster_model <- function(x, y, FUN, ...){
   model@y <- y
   model@FUN <- FUN
   model@args <- args
+  model@asym <- asym
 
   return(model)
 }
@@ -149,10 +153,20 @@ setMethod(
     diff_mat <- matrix(0, nrow(newdata), nrow(origdata))
     for(i_new in 1:nrow(newdata)){
       for(i_orig in 1:nrow(origdata)){
-        diff_mat[i_new, i_orig] <-
-          do.call(object@FUN,
-                  append(list(newdata[i_new,],
-                              origdata[i_orig,]), object@args))
+
+        v1 <- do.call(object@FUN,
+                      append(list(origdata[i_orig,],
+                                  newdata[i_new,]), object@args))
+
+        # If FUN is asymmetrical, take smallest of two runs
+        if(object@asym){
+          v2 <- do.call(object@FUN,
+                        append(list(newdata[i_new,],
+                                    origdata[i_orig,]), object@args))
+          diff_mat[i_new, i_orig] <- min(v1, v2)
+        }else{
+          diff_mat[i_new, i_orig] <- v1
+        }
       }
     }
 
@@ -162,10 +176,18 @@ setMethod(
         which(diff_mat[i,] == min(diff_mat[i,]))
       })
 
+    # Give NA when there is no nearest neighbor (i.e., equally distance to all neighbors)
+    multiple_neighbors <- sapply(nearest_neighbors, length) == ncol(diff_mat)
+    if(any(multiple_neighbors)){
+      message("Some samples have no nearest neighbors. Assigning NA label.")
+      nearest_neighbors[multiple_neighbors] <-
+        lapply(nearest_neighbors[multiple_neighbors], function(x) NA)
+    }
+
     # Sample neighbor when datum has multiple neighbors
     multiple_neighbors <- sapply(nearest_neighbors, length) > 1
     if(any(multiple_neighbors)){
-      message("Some samples have multiple neighbors. Choosing one randomly.")
+      message("Some samples have multiple nearest neighbors. Choosing randomly.")
       nearest_neighbors[multiple_neighbors] <-
         lapply(nearest_neighbors[multiple_neighbors], function(x) sample(x)[1])
     }

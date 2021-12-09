@@ -1,3 +1,10 @@
+## factordist 0.0.4
+---------------------
+* Update `predict.cluster_model`
+  * Assign NA label when there are no nearest neighbors
+  * Now handles asymmetric difference functions
+  * Now handles character labels
+
 ## factordist 0.0.3
 ---------------------
 * Implement `cluster_model` class and methods
