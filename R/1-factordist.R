@@ -32,9 +32,28 @@ NULL
 #' @export
 factordist <- function(data, metric = c("adjRand", "jaccard"), as_dist = TRUE){
 
+  if(class(data) == "matrix") data <- data.frame(data, stringsAsFactors = FALSE)
   if(class(data) != "data.frame") stop("Input must be a data.frame.")
+  if(any(is.na(data))) message("Alert: NAs detected. NA handling depends on metric.")
   isfact <- sapply(data, is.factor)
-  if(any(!isfact)) stop("All columns must be factors.")
+
+  # Coerce input into factors that all have the same levels
+  if(any(!isfact)){
+    message("Alert: Coercing all non-factor input into factors.")
+    all_levels <- sort(unique(unlist(data)))
+    for(i in 1:ncol(data)){
+      data[,i] <- factor(data[,i], levels = all_levels)
+    }
+  }
+
+  issamelevel <- sapply(data, function(x) all(levels(x) == levels(data[,1])))
+  if(any(!issamelevel)){
+    message("Alert: Coercing all factors to have same levels.")
+    all_levels <- sort(unique(unlist(data)))
+    for(i in 1:ncol(data)){
+      data[,i] <- factor(data[,i], levels = all_levels)
+    }
+  }
 
   metric <- metric[1]
   if(metric == "adjRand"){

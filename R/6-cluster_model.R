@@ -103,6 +103,10 @@ cluster_model <- function(x, y, FUN, asym = FALSE, ...){
   }
 
   if(any(class(y) %in% c("matrix", "data.frame"))){
+    if(!identical(rownames(x), rownames(y))){
+      stop("Row names for input x and y do not match.")
+    }
+    message("Alert: Using first column of y as label.")
     y <- y[,1]
   }
 
