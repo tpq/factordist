@@ -1,3 +1,11 @@
+## factordist 0.0.5
+---------------------
+* Update `factordist`
+    * Coerce input into factors with the same levels
+    * Alert user if input contains NA values
+* Update `cluster_model`
+    * When x and y are data.frames, check that row names match
+
 ## factordist 0.0.4
 ---------------------
 * Update `predict.cluster_model`
