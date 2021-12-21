@@ -1,3 +1,13 @@
+## factordist 0.0.6
+---------------------
+* Update `cluster_model`
+    * Pre-process `factordist` and `cluster_model` input the same way
+* Update `predict.cluster_model`
+    * Pre-process `factordist` and `predict.cluster_model` input the same way
+    * Add progress bar
+* General changes
+    * Use `inherits` for class checks
+
 ## factordist 0.0.5
 ---------------------
 * Update `factordist`
@@ -9,9 +19,9 @@
 ## factordist 0.0.4
 ---------------------
 * Update `predict.cluster_model`
-  * Assign NA label when there are no nearest neighbors
-  * Now handles asymmetric difference functions
-  * Now handles character labels
+    * Assign NA label when there are no nearest neighbors
+    * Now handles asymmetric difference functions
+    * Now handles character labels
 
 ## factordist 0.0.3
 ---------------------
