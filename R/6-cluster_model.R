@@ -52,7 +52,7 @@ NULL
 setClass(
   "cluster_model",
   slots = c(
-    x = "matrix",
+    x = "data.frame",
     y = "character",
     FUN = "function",
     asym = "logical",
@@ -94,15 +94,9 @@ cluster_model <- function(x, y, FUN, asym = FALSE, ...){
 
   args <- as.list(substitute(list(...)))[-1]
 
-  if(any(class(x) == "data.frame")){
-    x <- as.matrix(x)
-  }else if(any(class(x) == "matrix")){
-    x <- x
-  }else{
-    stop("Class for x not recognized.")
-  }
+  x <- ready_data(x)
 
-  if(any(class(y) %in% c("matrix", "data.frame"))){
+  if(inherits(y, c("data.frame", "matrix"))){
     if(!identical(rownames(x), rownames(y))){
       stop("Row names for input x and y do not match.")
     }
@@ -110,11 +104,9 @@ cluster_model <- function(x, y, FUN, asym = FALSE, ...){
     y <- y[,1]
   }
 
-  if(any(class(y) %in% c("factor", "numeric", "integer"))){
-    message("Alert: Coercing label input to string.")
+  if(inherits(y, c("factor", "character", "numeric", "integer"))){
+    message("Alert: Coercing input y to string.")
     y <- as.character(y)
-  }else if(any(class(y) == "character")){
-    y <- y
   }else{
     stop("Class for y not recognized.")
   }
@@ -124,7 +116,7 @@ cluster_model <- function(x, y, FUN, asym = FALSE, ...){
   }
 
   model <- new("cluster_model")
-  model@x <- as.matrix(x)
+  model@x <- x
   model@y <- y
   model@FUN <- FUN
   model@args <- args
@@ -140,13 +132,7 @@ setMethod(
   signature(object = "cluster_model"),
   function(object, newdata, output_list = FALSE){
 
-    if(any(class(newdata) == "data.frame")){
-      newdata <- as.matrix(newdata)
-    }else if(any(class(newdata) == "matrix")){
-      newdata <- newdata
-    }else{
-      stop("Class for newdata not recognized.")
-    }
+    newdata <- ready_data(newdata)
 
     origdata <- object@x
     if(!identical(ncol(newdata), ncol(origdata))){
@@ -156,6 +142,9 @@ setMethod(
     # Apply FUN
     diff_mat <- matrix(0, nrow(newdata), nrow(origdata))
     for(i_new in 1:nrow(newdata)){
+
+      numTicks <- progress(i_new, nrow(newdata), numTicks)
+
       for(i_orig in 1:nrow(origdata)){
 
         v1 <- do.call(object@FUN,
@@ -206,16 +195,13 @@ setMethod(
     names(new_k) <- rownames(newdata)
 
     if(output_list){
-
       return(
         list(
           "new_differences" = diff_mat,
           "new_y" = new_k
         )
       )
-
     }else{
-
       return(new_k)
     }
   }
