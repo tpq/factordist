@@ -1,6 +1,40 @@
 #' @import methods
 NULL
 
+#' Coerce Input As Factor
+#'
+#' This backend function coerces the input into a \code{data.frame}
+#'  where each column is a \code{factor}.
+#' @param data A \code{data.frame} or \code{matrix}.
+#' @return A \code{data.frame} where each column is a \code{factor}.
+ready_data <- function(data){
+
+  if(inherits(data, "matrix")) data <- data.frame(data, stringsAsFactors = FALSE)
+  if(!inherits(data, "data.frame")) stop("Input must be a data.frame.")
+  if(any(is.na(data))) message("Alert: NAs detected. NA handling depends on metric.")
+  isfact <- sapply(data, is.factor)
+
+  # Coerce input into factors that all have the same levels
+  if(any(!isfact)){
+    message("Alert: Coercing all non-factor input into factors.")
+    all_levels <- sort(unique(unlist(data)))
+    for(i in 1:ncol(data)){
+      data[,i] <- factor(data[,i], levels = all_levels)
+    }
+  }
+
+  issamelevel <- sapply(data, function(x) all(levels(x) == levels(data[,1])))
+  if(any(!issamelevel)){
+    message("Alert: Coercing all factors to have same levels.")
+    all_levels <- sort(unique(unlist(data)))
+    for(i in 1:ncol(data)){
+      data[,i] <- factor(data[,i], levels = all_levels)
+    }
+  }
+
+  return(data)
+}
+
 #' Calculate Distance Between Factors
 #'
 #' @param data A data.frame. Distances and differences
@@ -32,28 +66,7 @@ NULL
 #' @export
 factordist <- function(data, metric = c("adjRand", "jaccard"), as_dist = TRUE){
 
-  if(class(data) == "matrix") data <- data.frame(data, stringsAsFactors = FALSE)
-  if(class(data) != "data.frame") stop("Input must be a data.frame.")
-  if(any(is.na(data))) message("Alert: NAs detected. NA handling depends on metric.")
-  isfact <- sapply(data, is.factor)
-
-  # Coerce input into factors that all have the same levels
-  if(any(!isfact)){
-    message("Alert: Coercing all non-factor input into factors.")
-    all_levels <- sort(unique(unlist(data)))
-    for(i in 1:ncol(data)){
-      data[,i] <- factor(data[,i], levels = all_levels)
-    }
-  }
-
-  issamelevel <- sapply(data, function(x) all(levels(x) == levels(data[,1])))
-  if(any(!issamelevel)){
-    message("Alert: Coercing all factors to have same levels.")
-    all_levels <- sort(unique(unlist(data)))
-    for(i in 1:ncol(data)){
-      data[,i] <- factor(data[,i], levels = all_levels)
-    }
-  }
+  data <- ready_data(data)
 
   metric <- metric[1]
   if(metric == "adjRand"){
