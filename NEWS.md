@@ -1,3 +1,7 @@
+## factordist 0.0.7
+---------------------
+* Add `circularize` function
+
 ## factordist 0.0.6
 ---------------------
 * Update `cluster_model`
