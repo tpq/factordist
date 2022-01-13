@@ -1,3 +1,7 @@
+## factordist 0.0.8
+---------------------
+* Fix performance bottleneck in `predict.cluster_model` method
+
 ## factordist 0.0.7
 ---------------------
 * Add `circularize` function

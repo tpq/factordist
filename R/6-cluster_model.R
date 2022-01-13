@@ -132,30 +132,34 @@ setMethod(
   signature(object = "cluster_model"),
   function(object, newdata, output_list = FALSE){
 
+    # Transpose because x[,i] is faster than x[i,]
     newdata <- ready_data(newdata)
+    newdata <- t(newdata)
 
     origdata <- object@x
-    if(!identical(ncol(newdata), ncol(origdata))){
+    origdata <- t(origdata)
+
+    if(!identical(nrow(newdata), nrow(origdata))){
       stop("Feature space of new data does not match original data.")
     }
 
     # Apply FUN
-    diff_mat <- matrix(0, nrow(newdata), nrow(origdata))
-    for(i_new in 1:nrow(newdata)){
+    diff_mat <- matrix(0, ncol(newdata), ncol(origdata))
+    for(i_new in 1:ncol(newdata)){
 
-      numTicks <- progress(i_new, nrow(newdata), numTicks)
+      numTicks <- progress(i_new, ncol(newdata), numTicks)
 
-      for(i_orig in 1:nrow(origdata)){
+      for(i_orig in 1:ncol(origdata)){
 
         v1 <- do.call(object@FUN,
-                      append(list(origdata[i_orig,],
-                                  newdata[i_new,]), object@args))
+                      append(list(origdata[,i_orig],
+                                  newdata[,i_new]), object@args))
 
         # If FUN is asymmetrical, take smallest of two runs
         if(object@asym){
           v2 <- do.call(object@FUN,
-                        append(list(newdata[i_new,],
-                                    origdata[i_orig,]), object@args))
+                        append(list(newdata[,i_new],
+                                    origdata[,i_orig]), object@args))
           diff_mat[i_new, i_orig] <- min(v1, v2)
         }else{
           diff_mat[i_new, i_orig] <- v1
@@ -190,9 +194,9 @@ setMethod(
     new_k <- object@y[nearest_neighbor]
 
     # Name results
-    colnames(diff_mat) <- rownames(object@x)
-    rownames(diff_mat) <- rownames(newdata)
-    names(new_k) <- rownames(newdata)
+    colnames(diff_mat) <- colnames(origdata)
+    rownames(diff_mat) <- colnames(newdata)
+    names(new_k) <- colnames(newdata)
 
     if(output_list){
       return(
