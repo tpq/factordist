@@ -1,3 +1,7 @@
+## factordist 0.0.9
+---------------------
+* Add unit test for `sym` functions
+
 ## factordist 0.0.8
 ---------------------
 * Fix performance bottleneck in `predict.cluster_model` method
