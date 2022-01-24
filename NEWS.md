@@ -1,3 +1,7 @@
+## factordist 0.0.10
+---------------------
+* Add `s_relAcc` function to compute relative accuracy
+
 ## factordist 0.0.9
 ---------------------
 * Add unit test for `sym` functions

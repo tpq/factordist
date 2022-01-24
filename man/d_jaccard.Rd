@@ -24,4 +24,7 @@ NAs have no category assignment. As such, an NA never equals an NA.
  Two vectors of NAs are maximally different because they never equal
  one another. A vector of NAs and a vector of a single category is
  also maximally different because they never equal one another.
+ NAs are ignored in the denominator of Jaccard. So, the input
+ \code{a=c("A", "A", NA, NA)} is the same as
+ \code{b=c("A", "A", NA, NA)}.
 }

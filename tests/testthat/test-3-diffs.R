@@ -66,3 +66,31 @@ test_that("Jaccard difference works", {
     1
   )
 })
+
+test_that("relative accuracy works", {
+
+  expect_equal(
+    s_relAcc(A, B),
+    1
+  )
+
+  expect_equal(
+    s_relAcc(A, C),
+    0.5
+  )
+
+  expect_equal(
+    s_relAcc(L, M),
+    1
+  )
+
+  expect_equal(
+    s_relAcc(O, O),
+    0
+  )
+
+  expect_equal(
+    s_relAcc(A, O),
+    0
+  )
+})
