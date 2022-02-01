@@ -1,3 +1,9 @@
+## factordist 0.0.11
+---------------------
+* Add `match_labels` function to match cluster assignments
+* Update `s_relAcc`
+    * Fix denominator to ignore double NAs more precisely
+
 ## factordist 0.0.10
 ---------------------
 * Add `s_relAcc` function to compute relative accuracy
