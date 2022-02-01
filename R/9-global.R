@@ -5,13 +5,14 @@
 #'
 #' @param data Any matrix or data.frame.
 #' @return A data.frame where each column is a factor.
+#' @export
 as_factor_frame <- function(data){
 
   if(inherits(data, "matrix")) data <- data.frame(data, stringsAsFactors = FALSE)
   if(!inherits(data, "data.frame")) stop("Input must be a data.frame.")
   if(any(is.na(data))) message("Alert: NAs detected. NA handling depends on metric.")
   isfact <- sapply(data, is.factor)
-  issamelevel <- sapply(data, function(x) all(levels(x) == levels(data[,1])))
+  issamelevel <- sapply(data, function(x) identical(levels(x), levels(data[,1])))
 
   # Coerce input into factors that all have the same levels
   if(any(!isfact) | any(!issamelevel)){
@@ -33,6 +34,7 @@ as_factor_frame <- function(data){
 #' @param k Total iterations.
 #' @param numTicks The result of \code{progress}.
 #' @return The next \code{numTicks} argument.
+#' @export
 progress <- function(i, k, numTicks){
 
   if(i == 1) numTicks <- 0
