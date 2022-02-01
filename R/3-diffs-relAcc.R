@@ -33,15 +33,15 @@ s_relAcc <- function(a, b, return_summary = FALSE){
     for(event in 1:smallest_k){
       rowmaxes <- apply(confMat, 1, max)
       rowmax <- which_max(rowmaxes)
-      colmaxes <- apply(confMat[rowmax,,drop=FALSE], 2, max)
+      colmaxes <- apply(confMat[rowmax, , drop = FALSE], 2, max)
       colmax <- which_max(colmaxes)
       res[[event]] <-
         data.frame(
           "label1" = names(rowmax),
           "label2" = names(colmax),
-          "overlap" = confMat[rowmax, colmax, drop=TRUE]
+          "overlap" = confMat[rowmax, colmax, drop = TRUE]
         )
-      confMat <- confMat[-rowmax, -colmax, drop=FALSE]
+      confMat <- confMat[-rowmax, -colmax, drop = FALSE]
     }
 
   }else{
