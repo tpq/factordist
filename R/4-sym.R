@@ -12,7 +12,7 @@ sym <- function(mat){
   replacement <- mat[lower.tri(mat)]
   mat_t <- t(mat)
   mat_t[lower.tri(mat_t)] <- replacement
-  return(mat_t)
+  mat_t
 }
 
 #' Symmetrize Matrix
