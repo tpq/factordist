@@ -16,3 +16,20 @@ test_that("match_labels works properly", {
     as.character(b_should_be)
   )
 })
+
+mat <- data.frame(a, b, a, b)
+mat_ref1 <- as_consensus_matrix(mat, ref_col = 1)
+mat_ref2 <- as_consensus_matrix(mat, ref_col = 2)
+
+test_that("as_consensus_matrix works properly", {
+
+  expect_equal(
+    mat_ref1$b, # when a is reference
+    factor(b_should_be, levels = 1:4)
+  )
+
+  expect_equal(
+    mat_ref2$b, # when b is reference
+    factor(b, levels = 1:3)
+  )
+})

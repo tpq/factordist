@@ -43,3 +43,36 @@ match_labels <- function(a, b, strict = FALSE, verbose = FALSE){
 
   return(res)
 }
+
+#' Build Consensus Matrix
+#'
+#' This function runs \code{\link{match_labels}} on every column
+#'  of a matrix. It can be used to give different clustering results a
+#'  common vocabulary so that they can be compared with one another.
+#'  In other words, this function establishes a "consensus matrix"
+#'  that can be used for consensus clustering.
+#'
+#' @param mat A matrix or data.frame.
+#' @param ref_col An integer. The column to use as a reference.
+#'  If NA, the function will choose a reference automatically.
+#' @param ... Arguments to \code{\link{match_labels}}.
+#' @return A data.frame of matched labels.
+#' @export
+as_consensus_matrix <- function(mat, ref_col = NA, ...){
+
+  mat <- as_factor_frame(mat)
+
+  if(identical(ref_col, NA)){
+    message("No reference provided. Choosing one automatically.")
+    sim <- papply(mat, 2, s_relAcc)
+    totalSim <- rowSums(sim)
+    ref_col <- which_max(totalSim)
+  }
+
+  res <- mat
+  for(col in 1:ncol(mat)){
+    res[,col] <- match_labels(mat[,ref_col], mat[,col], ...)
+  }
+
+  as_factor_frame(res)
+}
