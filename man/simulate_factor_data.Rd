@@ -4,15 +4,17 @@
 \alias{simulate_factor_data}
 \title{Simulate Factor Data}
 \usage{
-simulate_factor_data(nrows, ncols)
+simulate_factor_data(nrows, ncols, nletters = 26)
 }
 \arguments{
-\item{nrows}{The number of rows (as samples).}
+\item{nrows}{An integer. The number of rows (as samples).}
 
-\item{ncols}{The number of columns (as variables).}
+\item{ncols}{An integer. The number of columns (as variables).}
+
+\item{nletters}{An integer. The number of letters.}
 }
 \value{
-A data.frame of factors.
+A data.frame where each column is a factor.
 }
 \description{
 Simulate Factor Data

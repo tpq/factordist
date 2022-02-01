@@ -13,7 +13,7 @@ circularize(FUN, max_shift, return_min = TRUE)
 When \code{max_shift = 1}, only the default alignment is used.}
 
 \item{return_min}{A logical. Toggles whether the function
-should return all difference measures, or the smallest.}
+should return all difference measures, or only the smallest.}
 }
 \value{
 A function. An instance of \code{FUN} that now
@@ -22,6 +22,6 @@ A function. An instance of \code{FUN} that now
 \description{
 The difference measures included in this package compare two
  factor-class vectors of the same size. The measures do not consider
- any different alignments of the vectors. With \code{circularize}, a
+ multiple alignments of the vectors. With \code{circularize}, a
  difference function is made to consider multiple alignments.
 }

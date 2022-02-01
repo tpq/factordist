@@ -1,6 +1,6 @@
 Package: factordist
 Title: Measuring Distance Between Factors
-Version: 0.0.11
+Version: 0.1.0
 URL: http://github.com/tpq/factordist
 BugReports: http://github.com/tpq/factordist/issues
 Authors@R: c(

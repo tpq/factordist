@@ -1,20 +1,3 @@
-resample <- function(x, ...){
-
-  x[sample.int(length(x), ...)]
-}
-
-rmax <- function(x){
-
-  resample(which(x == max(x)))[1]
-}
-
-mode <- function(a){
-
-  counts <- sort(table(a), decreasing = TRUE)
-  maxes <- counts[counts == max(counts)]
-  names(rmax(maxes))
-}
-
 #' Match Labels
 #'
 #' This function finds new labels for \code{b} that best match the labels
@@ -38,7 +21,7 @@ match_labels <- function(a, b, strict = FALSE, verbose = FALSE){
 
     overlap <- table(a, b)
     key <-
-      data.frame("label1" = apply(overlap, 2, function(x) names(rmax(x))),
+      data.frame("label1" = apply(overlap, 2, function(x) names(which_max(x))),
                  "label2" = colnames(overlap))
   }
 

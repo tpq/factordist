@@ -7,7 +7,7 @@
 papply(X, MARGIN = 2, FUN, lower_only = FALSE, ...)
 }
 \arguments{
-\item{X}{A matrix.}
+\item{X}{Any matrix or data.frame.}
 
 \item{MARGIN}{Choose from 1 or 2. If 1, apply function to
 pairs of rows. If 2, apply function to pairs of columns.}

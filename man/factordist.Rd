@@ -4,16 +4,17 @@
 \alias{factordist}
 \title{Calculate Distance Between Factors}
 \usage{
-factordist(data, metric = c("adjRand", "jaccard"), as_dist = TRUE)
+factordist(data, metric = c("jaccard", "adjRand"), as_dist = TRUE)
 }
 \arguments{
-\item{data}{A data.frame. Distances and differences
-are calculated between columns of the input.}
+\item{data}{A data.frame of factors. Distances and differences
+are calculated between columns of the input. If data does not contain
+factors, factors are introduced by \code{\link{as_factor_frame}}.}
 
-\item{metric}{A string. The distance or difference metric.}
+\item{metric}{A string. The name of the difference metric.}
 
 \item{as_dist}{A boolean. Toggles whether to return the
-result matrix as dist object.}
+difference matrix as a Base R \code{dist} object.}
 }
 \value{
 A difference matrix.

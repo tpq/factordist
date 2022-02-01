@@ -1,47 +1,15 @@
 #' @import methods
 NULL
 
-#' Coerce Input As Factor
-#'
-#' This backend function coerces the input into a \code{data.frame}
-#'  where each column is a \code{factor}.
-#' @param data A \code{data.frame} or \code{matrix}.
-#' @return A \code{data.frame} where each column is a \code{factor}.
-ready_data <- function(data){
-
-  if(inherits(data, "matrix")) data <- data.frame(data, stringsAsFactors = FALSE)
-  if(!inherits(data, "data.frame")) stop("Input must be a data.frame.")
-  if(any(is.na(data))) message("Alert: NAs detected. NA handling depends on metric.")
-  isfact <- sapply(data, is.factor)
-
-  # Coerce input into factors that all have the same levels
-  if(any(!isfact)){
-    message("Alert: Coercing all non-factor input into factors.")
-    all_levels <- sort(unique(unlist(data)))
-    for(i in 1:ncol(data)){
-      data[,i] <- factor(data[,i], levels = all_levels)
-    }
-  }
-
-  issamelevel <- sapply(data, function(x) all(levels(x) == levels(data[,1])))
-  if(any(!issamelevel)){
-    message("Alert: Coercing all factors to have same levels.")
-    all_levels <- sort(unique(unlist(data)))
-    for(i in 1:ncol(data)){
-      data[,i] <- factor(data[,i], levels = all_levels)
-    }
-  }
-
-  return(data)
-}
-
 #' Calculate Distance Between Factors
 #'
-#' @param data A data.frame. Distances and differences
-#'  are calculated between columns of the input.
-#' @param metric A string. The distance or difference metric.
+#' @param data A data.frame of factors. Distances and differences
+#'  are calculated between columns of the input. If data does not contain
+#'  factors, factors are introduced by \code{\link{as_factor_frame}}.
+#' @param metric A string. The name of the difference metric.
 #' @param as_dist A boolean. Toggles whether to return the
-#'  result matrix as dist object.
+#'  difference matrix as a Base R \code{dist} object.
+#'
 #' @return A difference matrix.
 #'
 #' @details
@@ -64,15 +32,15 @@ ready_data <- function(data){
 #' dis <- factordist(x, metric = "adjRand")
 #'
 #' @export
-factordist <- function(data, metric = c("adjRand", "jaccard"), as_dist = TRUE){
+factordist <- function(data, metric = c("jaccard", "adjRand"), as_dist = TRUE){
 
-  data <- ready_data(data)
+  data <- as_factor_frame(data)
 
   metric <- metric[1]
-  if(metric == "adjRand"){
-    dif <- papply(data, MARGIN = 2, FUN = d_adjRand, lower_only = FALSE)
-  }else if(metric == "jaccard"){
+  if(metric == "jaccard"){
     dif <- papply(data, MARGIN = 2, FUN = d_jaccard, lower_only = FALSE)
+  }else if(metric == "adjRand"){
+    dif <- papply(data, MARGIN = 2, FUN = d_adjRand, lower_only = FALSE)
   }else{
     stop("Metric not recognized. See ?factordist.")
   }

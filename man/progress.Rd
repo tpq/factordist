@@ -2,7 +2,7 @@
 % Please edit documentation in R/9-global.R
 \name{progress}
 \alias{progress}
-\title{Make Progress Bar}
+\title{Print Progress Bar}
 \usage{
 progress(i, k, numTicks)
 }
@@ -17,5 +17,5 @@ progress(i, k, numTicks)
 The next \code{numTicks} argument.
 }
 \description{
-Make Progress Bar
+This backend function prints a progress bar.
 }

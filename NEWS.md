@@ -1,3 +1,12 @@
+## factordist 0.1.0
+---------------------
+* Clean up file structure and documentation
+* Changes to streamline backend
+    * Rename `ready_data` to `as_factor_frame`
+    * New `resample` to avoid the `sample(N)` bug
+    * New `which_max` and `which_min` to return sample max/min index
+    * New `args_as_list` and `do_call` to simplify calling
+
 ## factordist 0.0.11
 ---------------------
 * Add `match_labels` function to match cluster assignments
