@@ -113,7 +113,7 @@ s_relAcc <- function(a, b, return_summary = FALSE){
 
   # Compute relative accuracy as (AGREEMENT SIZE) / (TOTAL SIZE)
   maxAgreements <- do.call("rbind", res)
-  denominator <- pmax(sum(!is.na(a)), sum(!is.na(b))) # ignore double-NAs
+  denominator <- length(a) - sum(is.na(a) & is.na(b)) # ignore double-NAs
   acc <- sum(maxAgreements$overlap) / denominator
   if(is.nan(acc)) acc <- 0
   if(return_summary) return(maxAgreements)
