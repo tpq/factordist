@@ -14,5 +14,5 @@ The mode of the vector. If there are multiple modes,
  returns a mode randomly.
 }
 \description{
-Get Mode
+The mode will ignore NAs. If all elements are NA, the mode is NA.
 }

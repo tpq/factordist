@@ -92,14 +92,26 @@ which_min <- function(x){
 
 #' Get Mode
 #'
+#' The mode will ignore NAs. If all elements are NA, the mode is NA.
+#'
 #' @param x A vector.
 #' @return The mode of the vector. If there are multiple modes,
 #'  returns a mode randomly.
 #' @export
 mode <- function(x){
 
-  counts <- table(x)
-  names(which_max(counts))
+  if(all(is.na(x))){
+
+    x_mode <- NA
+
+  }else{
+
+    x <- x[!is.na(x)]
+    counts <- table(x)
+    x_mode <- names(which_max(counts))
+  }
+
+  x_mode
 }
 
 #' Coerce \code{...} to List
