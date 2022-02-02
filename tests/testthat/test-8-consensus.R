@@ -18,8 +18,8 @@ test_that("match_labels works properly", {
 })
 
 mat <- data.frame(a, b, a, b)
-mat_ref1 <- as_consensus_matrix(mat, ref_col = 1)
-mat_ref2 <- as_consensus_matrix(mat, ref_col = 2)
+mat_ref1 <- as_consensus_matrix(mat, ref_col = 1, strict = FALSE)
+mat_ref2 <- as_consensus_matrix(mat, ref_col = 2, strict = FALSE)
 
 test_that("as_consensus_matrix works properly", {
 

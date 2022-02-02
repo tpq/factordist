@@ -4,7 +4,7 @@
 \alias{match_labels}
 \title{Match Labels}
 \usage{
-match_labels(a, b, strict = FALSE, verbose = FALSE)
+match_labels(a, b, strict = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{a, b}{Factors.}

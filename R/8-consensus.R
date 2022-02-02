@@ -11,7 +11,7 @@
 #' @param verbose A boolean. Toggles whether to print intermediate results.
 #' @return A vector of new labels for \code{b}.
 #' @export
-match_labels <- function(a, b, strict = FALSE, verbose = FALSE){
+match_labels <- function(a, b, strict = TRUE, verbose = FALSE){
 
   if(strict){
 

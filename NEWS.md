@@ -1,3 +1,8 @@
+## factordist 0.1.1
+---------------------
+* Set `strict = TRUE` as default `as_consensus_matrix` behavior
+* Update `mode` to ignore NAs
+
 ## factordist 0.1.0
 ---------------------
 * Add `as_consensus_matrix` function to repeat `match_labels` across matrix columns
