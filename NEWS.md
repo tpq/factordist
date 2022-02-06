@@ -1,3 +1,7 @@
+## factordist 0.1.2
+---------------------
+* Add `as_consensus_cluster` function to suggest final labels from consensus matrix
+
 ## factordist 0.1.1
 ---------------------
 * Set `strict = TRUE` as default `as_consensus_matrix` behavior
